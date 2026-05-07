@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -17,7 +19,7 @@ class AuthController extends Controller
         return Inertia::render('Auth/Login');
     }
 
-    public function store(LoginRequest $request)
+    public function store(AuthRequest $request)
     {
         $data = $request->getLoginData();
 
