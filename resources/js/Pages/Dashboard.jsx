@@ -4,7 +4,7 @@ export default function Dashboard() {
     return (
         <BaseLayout>
             <div className="flex h-full w-full justify-center items-center">
-                <h1 className="text-4xl text-white mb-4">Aurion OS 🚀</h1>
+                <h1 className="text-4xl text-[#E0E802] mb-4">Aurion OS 🚀</h1>
             </div>
         </BaseLayout>
     );
