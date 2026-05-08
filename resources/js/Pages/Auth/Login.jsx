@@ -1,7 +1,21 @@
 import { FaLock } from "react-icons/fa";
 import { CiMail } from "react-icons/ci";
+import { LuLoaderCircle } from "react-icons/lu";
+import { useForm } from '@inertiajs/react';
 
 export default function Login() {
+    const { data, setData, post, processing, errors } = useForm({
+        email: '',
+        password: '',
+        remember: false,
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        post('/login');
+    };
+
     return (
         <div className="w-screen h-screen bg-white flex justify-center items-center p-6">
 
@@ -15,7 +29,10 @@ export default function Login() {
 
 
                     {/* Login Form */}
-                    <div className="w-full flex flex-col h-full justify-center gap-8">
+                    <form  
+                        className="w-full flex flex-col h-full justify-center gap-8"
+                        onSubmit={handleSubmit}
+                    >
 
                         {/* Welcome */}
                         <div className="flex w-full justify-start items-center">
@@ -23,6 +40,13 @@ export default function Login() {
                                 Welcome!
                             </span>
                         </div>
+
+                        {/* Errors */}
+                        {errors.error && (
+                            <div className="text-red-500 text-base text-center font-bold">
+                                {errors.error}
+                            </div>
+                        )}
 
                         {/* Email */}
                         <div className="flex flex-col gap-2">
@@ -39,6 +63,8 @@ export default function Login() {
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
                                     className="
                                         w-full
                                         h-14
@@ -73,6 +99,8 @@ export default function Login() {
                                 <input
                                     type="password"
                                     placeholder="Enter your password"
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
                                     className="
                                         w-full
                                         h-14
@@ -92,6 +120,20 @@ export default function Login() {
                             </div>
                         </div>
 
+                        {/* Remember me */}
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                checked={data.remember}
+                                onChange={(e) => setData('remember', e.target.checked)}
+                                className="w-4 h-4"
+                            />
+                            <label htmlFor="remember" className="text-sm text-[#02020F]">
+                                Remember me
+                            </label>
+                        </div>
+
                         {/* Forgot password */}
                         <div className="w-full flex justify-end">
                             <button
@@ -101,6 +143,7 @@ export default function Login() {
                                     hover:underline
                                     transition
                                 "
+                                type="button"
                             >
                                 Forgot password?
                             </button>
@@ -108,6 +151,8 @@ export default function Login() {
 
                         {/* Login button */}
                         <button
+                            type="submit"
+                            disabled={processing}
                             className="
                                 w-full
                                 h-14
@@ -119,9 +164,13 @@ export default function Login() {
                                 hover:scale-105
                                 transition-all
                                 rounded-4xl
+                                disabled:opacity-50
+                                flex
+                                justify-center
+                                items-center
                             "
                         >
-                            Login
+                            {processing ? <LuLoaderCircle className="animate-spin text-3xl font-bold" /> : 'Login'}
                         </button>
 
                         {/* Footer */}
@@ -137,7 +186,7 @@ export default function Login() {
                                 Or contact us and become a client
                             </button>
                         </div>
-                    </div>
+                    </form>
                     
                     <span className="text-gray-400 mt-2 text-sm text-center">© {new Date().getFullYear()} | Developed by - Aurion OS</span>
                 </div>
